@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduQuest: The Lost Kingdom</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-mode="menu">
+<div id="app">
+  <header id="hud">
+    <span>Skor: <b id="hud-score">0</b></span>
+    <span>Tantangan: <b id="hud-progress">0/1</b></span>
+    <button id="btn-pause" class="btn small" type="button">Jeda</button>
+  </header>
+  <main id="stage">
+    <canvas id="game" width="640" height="360" role="img" aria-label="Dunia permainan EduQuest"></canvas>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+  </main>
+  <p id="help">Gerak: panah / WASD. Interaksi: E, Spasi, atau Enter. Jeda: Esc.</p>
+  <div id="controls">
+    <div id="joystick" aria-label="Joystick"><div id="stick"></div></div>
+    <button id="btn-act" type="button">Aksi</button>
+  </div>
+
+  <section id="screen-menu" class="screen" aria-labelledby="menu-title">
+    <div class="panel">
+      <h1 id="menu-title">EduQuest: The Lost Kingdom</h1>
+      <p>Kerajaan Aldara terkunci oleh gerbang kuno. Hanya petualang yang menjawab teka-teki para penjaga yang boleh lewat. Jelajahi desa, temukan papan tantangan, dan buka jalanmu.</p>
+      <div class="row">
+        <button id="btn-start" class="btn primary" type="button" disabled>Mulai</button>
+        <button id="btn-continue" class="btn" type="button" disabled>Lanjutkan</button>
+      </div>
+      <p id="boot-msg">Memuat game...</p>
+      <p id="menu-note" role="status"></p>
+    </div>
+  </section>
+
+  <section id="screen-pause" class="screen" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden>
+    <div class="panel">
+      <h2 id="pause-title">Permainan dijeda</h2>
+      <div class="col">
+        <button id="btn-resume" class="btn primary" type="button">Lanjutkan</button>
+        <button id="btn-restart" class="btn" type="button">Mulai ulang dari awal</button>
+        <button id="btn-menu" class="btn" type="button">Ke menu utama</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-quiz" class="screen" role="dialog" aria-modal="true" aria-labelledby="quiz-title" hidden>
+    <div class="panel">
+      <p id="quiz-topic" class="muted"></p>
+      <h2 id="quiz-title"></h2>
+      <div id="quiz-question">
+        <p id="quiz-count" class="muted"></p>
+        <p id="quiz-text" class="question"></p>
+        <div id="quiz-options" role="group" aria-label="Pilihan jawaban"></div>
+        <div id="quiz-feedback" role="status" aria-live="polite" hidden></div>
+        <button id="quiz-next" class="btn primary" type="button" hidden></button>
+      </div>
+      <div id="quiz-result" hidden>
+        <p id="quiz-result-text" class="question" role="status"></p>
+        <div class="row">
+          <button id="quiz-retry" class="btn" type="button">Coba lagi</button>
+          <button id="quiz-close" class="btn primary" type="button">Kembali ke peta</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-complete" class="screen" aria-labelledby="complete-title" hidden>
+    <div class="panel">
+      <h2 id="complete-title">Gerbang terbuka!</h2>
+      <p>Kamu memasuki Hutan Kristal. Prototipe selesai.</p>
+      <p>Skor akhir: <b id="complete-score">0</b>. Jawaban benar: <b id="complete-acc">0%</b>.</p>
+      <div class="row">
+        <button id="btn-again" class="btn primary" type="button">Main lagi</button>
+        <button id="btn-complete-menu" class="btn" type="button">Ke menu utama</button>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  setTimeout(function () {
+    var m = document.getElementById('boot-msg');
+    if (m) m.textContent = 'Game belum termuat. Jalankan lewat server lokal (lihat README); jangan buka file langsung.';
+  }, 2500);
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
