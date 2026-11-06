@@ -15,8 +15,8 @@ export function applyResult(state, challenge, result) {
   s.earnedQuestions = [...new Set([...s.earnedQuestions, ...result.newlyEarned])];
   s.attempts[challenge.id] = (s.attempts[challenge.id] || 0) + 1;
   let newlyUnlocked = null;
-  if (result.passed && !isCompleted(s, challenge.id)) {
-    s.completedChallenges.push(challenge.id);
+  if (result.passed) { // idempoten: save lama/diedit (selesai tapi zona belum terbuka) tidak boleh soft-lock
+    if (!isCompleted(s, challenge.id)) s.completedChallenges.push(challenge.id);
     if (!isZoneUnlocked(s, challenge.unlocks)) { s.unlockedZones.push(challenge.unlocks); newlyUnlocked = challenge.unlocks; }
   }
   return { state: s, newlyUnlocked };

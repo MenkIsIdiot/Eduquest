@@ -40,10 +40,11 @@ export function createInput() {
     stick.style.transform = `translate(${dx}px,${dy}px)`;
     joy = Math.hypot(dx, dy) / R < 0.2 ? { x: 0, y: 0 } : { x: dx / R, y: dy / R };
   };
-  const end = (e) => { if (e.pointerId === pid) { pid = null; joy = { x: 0, y: 0 }; stick.style.transform = ''; } };
-  base.addEventListener('pointerdown', (e) => { e.preventDefault(); pid = e.pointerId; base.setPointerCapture(pid); setJoy(e); });
+  const end = (e) => { if (e.pointerId === pid) { pid = null; joy = { x: 0, y: 0 }; stick.style.transform = ''; base.classList.remove('active'); } };
+  base.addEventListener('pointerdown', (e) => { e.preventDefault(); pid = e.pointerId; base.setPointerCapture(pid); base.classList.add('active'); setJoy(e); });
   base.addEventListener('pointermove', (e) => { if (e.pointerId === pid) setJoy(e); });
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((t) => base.addEventListener(t, end));
-  act.addEventListener('pointerdown', (e) => { e.preventDefault(); if (api.enabled) interact = true; });
+  act.addEventListener('pointerdown', (e) => { e.preventDefault(); act.classList.add('pressed'); if (api.enabled) interact = true; });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => act.addEventListener(t, () => act.classList.remove('pressed')));
   return api;
 }

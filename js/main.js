@@ -24,12 +24,16 @@ const game = new Game({ canvas: $('game'), input: createInput(), ui, quizUI: cre
 const errors = [...validateChallenges(CHALLENGES, Object.keys(ZONES).map(Number)),
   ...BOARDS.filter((b) => !CHALLENGES.some((c) => c.id === b.challengeId)).map((b) => `Papan ${b.id}: challengeId tidak ditemukan`)];
 
-const confirmRestart = () => confirm('Memulai ulang akan menghapus progres tersimpan. Lanjutkan?');
-$('btn-start').addEventListener('click', () => { if (!game.hasSave() || confirmRestart()) game.newGame(); });
+// Menahan Enter pada tombol memicu klik berulang (key repeat) yang melompati kuis/menu: abaikan pengulangan.
+document.addEventListener('keydown', (e) => { if (e.repeat && e.key === 'Enter' && e.target instanceof HTMLButtonElement) e.preventDefault(); }, true);
+
+// Dialog konfirmasi bawaan game (confirm() native bisa diblokir, mis. di iframe, dan membuat tombol tampak mati).
+const askRestart = (backTo) => ui.confirm('Memulai ulang akan menghapus progres tersimpan. Lanjutkan?', 'Hapus dan mulai ulang', backTo);
+$('btn-start').addEventListener('click', async () => { if (!game.hasSave() || await askRestart('menu')) game.newGame(); });
 $('btn-continue').addEventListener('click', () => game.continueGame());
 $('btn-pause').addEventListener('click', () => { if (game.mode === 'playing') game.pause(); });
 $('btn-resume').addEventListener('click', () => game.resume());
-$('btn-restart').addEventListener('click', () => { if (confirmRestart()) game.newGame(); });
+$('btn-restart').addEventListener('click', async () => { if (await askRestart('pause')) game.newGame(); });
 $('btn-menu').addEventListener('click', () => game.toMenu());
 $('btn-again').addEventListener('click', () => game.newGame());
 $('btn-complete-menu').addEventListener('click', () => game.toMenu());

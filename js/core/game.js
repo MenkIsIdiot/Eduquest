@@ -25,7 +25,7 @@ export class Game {
     requestAnimationFrame(this.frame);
   };
   render() {
-    draw(this.ctx, { map: MAP, player: this.player, facing: this.facing, entities: this.entities(),
+    draw(this.ctx, { map: MAP, player: this.player, facing: this.facing, moving: this.mode === 'playing' && this.moving, entities: this.entities(),
       near: this.mode === 'playing' ? this.near : null, t: this.t, gateOpen: isZoneUnlocked(this.state, 2),
       touch: this.touch, reduceMotion: this.reduceMotion });
   }
@@ -35,6 +35,7 @@ export class Game {
     if (this.mode !== 'playing') return;
     if (this.input.consumePause()) { this.pause(); return; }
     const v = this.input.vector();
+    this.moving = !!(v.x || v.y);
     if (v.x || v.y) {
       const d = SPEED * dt;
       this.player = { ...this.player, ...moveWithCollision(MAP, this.player, v.x * d, v.y * d, PLAYER_SIZE, isZoneUnlocked(this.state, 2)) };

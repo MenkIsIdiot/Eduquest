@@ -42,7 +42,7 @@ test('peta: tujuan hanya terjangkau jika gerbang terbuka (BFS)', () => {
   assert.equal(reach(false), false); assert.equal(reach(true), true);
 });
 test('tabrakan: tembok memblokir, gerbang bergantung status, bisa menyusuri dinding', () => {
-  assert.deepEqual(moveWithCollision(MAP, { x: TILE + 1, y: 100 }, -10, 0, PLAYER_SIZE, false), { x: TILE + 1, y: 100 }); // dinding kiri
+  assert.deepEqual(moveWithCollision(MAP, { x: TILE + 1, y: 100 }, -10, 0, PLAYER_SIZE, false), { x: TILE, y: 100 }); // dinding kiri: merapat ke tepi (x=32)
   const nearGate = { x: 14 * TILE - PLAYER_SIZE, y: 6 * TILE + 6 };
   assert.equal(moveWithCollision(MAP, nearGate, 8, 0, PLAYER_SIZE, false).x, nearGate.x);
   assert.equal(moveWithCollision(MAP, nearGate, 8, 0, PLAYER_SIZE, true).x, nearGate.x + 8);

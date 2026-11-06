@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EduQuest: The Lost Kingdom</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-mode="menu">
 <div id="app">
   <header id="hud">
-    <span>Skor: <b id="hud-score">0</b></span>
-    <span>Tantangan: <b id="hud-progress">0/1</b></span>
+    <span class="chip"><span class="star" aria-hidden="true">★</span> Skor <b id="hud-score">0</b></span>
+    <div class="quest" role="group" aria-label="Progres tantangan"><span>Tantangan <b id="hud-progress">0/1</b></span><span class="bar" aria-hidden="true"><i id="hud-bar"></i></span></div>
     <button id="btn-pause" class="btn small" type="button">Jeda</button>
   </header>
   <main id="stage">
@@ -25,12 +26,14 @@
 
   <section id="screen-menu" class="screen" aria-labelledby="menu-title">
     <div class="panel">
-      <h1 id="menu-title">EduQuest: The Lost Kingdom</h1>
+      <svg class="crest" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 42 14v20L24 45 6 34V14z" fill="#33266a" stroke="#f2c14e" stroke-width="3"/><path d="M24 11l9 8-9 18-9-18z" fill="#7fe0ff"/><path d="M24 11l-9 8h18z" fill="#c9f3ff"/></svg>
+      <h1 id="menu-title"><span class="title">EduQuest</span><span class="subtitle">The Lost Kingdom</span></h1>
       <p>Kerajaan Aldara terkunci oleh gerbang kuno. Hanya petualang yang menjawab teka-teki para penjaga yang boleh lewat. Jelajahi desa, temukan papan tantangan, dan buka jalanmu.</p>
       <div class="row">
         <button id="btn-start" class="btn primary" type="button" disabled>Mulai</button>
         <button id="btn-continue" class="btn" type="button" disabled>Lanjutkan</button>
       </div>
+      <p class="hint-keys">Panah/WASD bergerak, E berinteraksi, Esc jeda.</p>
       <p id="boot-msg">Memuat game...</p>
       <p id="menu-note" role="status"></p>
     </div>
@@ -47,9 +50,19 @@
     </div>
   </section>
 
+  <section id="screen-confirm" class="screen" role="alertdialog" aria-modal="true" aria-labelledby="confirm-text" hidden>
+    <div class="panel">
+      <p id="confirm-text" class="question"></p>
+      <div class="row">
+        <button id="confirm-cancel" class="btn" type="button">Batal</button>
+        <button id="confirm-ok" class="btn primary" type="button">Ya</button>
+      </div>
+    </div>
+  </section>
+
   <section id="screen-quiz" class="screen" role="dialog" aria-modal="true" aria-labelledby="quiz-title" hidden>
     <div class="panel">
-      <p id="quiz-topic" class="muted"></p>
+      <div class="quiz-head"><p id="quiz-topic" class="badge"></p><div id="quiz-steps" class="steps" aria-hidden="true"></div></div>
       <h2 id="quiz-title"></h2>
       <div id="quiz-question">
         <p id="quiz-count" class="muted"></p>
@@ -71,6 +84,7 @@
   <section id="screen-complete" class="screen" aria-labelledby="complete-title" hidden>
     <div class="panel">
       <h2 id="complete-title">Gerbang terbuka!</h2>
+      <p id="complete-stars" class="stars" role="img"></p>
       <p>Kamu memasuki Hutan Kristal. Prototipe selesai.</p>
       <p>Skor akhir: <b id="complete-score">0</b>. Jawaban benar: <b id="complete-acc">0%</b>.</p>
       <div class="row">

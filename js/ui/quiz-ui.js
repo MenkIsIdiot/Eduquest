@@ -11,6 +11,8 @@ export function createQuizUI(ui) {
   function renderQuestion() {
     const item = C.currentQuestion(s);
     el.count.textContent = `Soal ${s.index + 1} dari ${s.questions.length}`;
+    $('quiz-steps').replaceChildren(...s.questions.map((_, i) => { // penanda langkah: terisi = selesai, cincin = sekarang
+      const d = document.createElement('span'); d.className = 'step' + (i < s.index ? ' done' : i === s.index ? ' now' : ''); return d; }));
     el.text.textContent = item.q.text;
     el.opts.replaceChildren(...item.options.map((o, i) => {
       const b = document.createElement('button');
